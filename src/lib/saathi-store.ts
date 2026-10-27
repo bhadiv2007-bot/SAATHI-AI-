@@ -10,7 +10,7 @@ export interface CompanionRequest {
   time: string;
   notes: string;
   status: RequestStatus;
-  volunteer?: string;
+  volunteer?: string | undefined;
   createdAt: number;
   sample?: boolean;
 }
@@ -21,7 +21,7 @@ export interface Reminder {
   dosage: string;
   time: string;
   notes: string;
-  takenOn?: string; // YYYY-MM-DD when last marked taken
+  takenOn?: string | undefined; // YYYY-MM-DD when last marked taken
   sample?: boolean;
 }
 
