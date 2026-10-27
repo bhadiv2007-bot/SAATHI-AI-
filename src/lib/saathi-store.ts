@@ -169,7 +169,7 @@ export function sortByTime<T extends { time: string }>(arr: T[]) {
 }
 
 export function formatTime(t: string) {
-  const [h, m] = t.split(":").map(Number);
+  const [h = 0, m = 0] = t.split(":").map(Number);
   const suffix = h >= 12 ? "PM" : "AM";
   return `${((h + 11) % 12) + 1}:${String(m).padStart(2, "0")} ${suffix}`;
 }
