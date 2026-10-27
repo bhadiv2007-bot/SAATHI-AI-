@@ -9,6 +9,10 @@ import {
   type ErrorComponentProps,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
+import { Toaster } from "sonner";
+import { HeartHandshake, Home, Pill, Users, Siren, RotateCcw } from "lucide-react";
+import { actions } from "@/lib/saathi-store";
+import { toast } from "sonner";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -78,14 +82,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Saathi — Community Companion for Senior Citizens" },
+      { name: "description", content: "Companionship requests, medicine reminders and emergency help for seniors living alone." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
@@ -93,6 +93,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:opsz,wght@9..144,600&display=swap" },
     ],
   }),
   shellComponent: RootShell,
@@ -121,7 +123,63 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <AppShell />
+      <Toaster position="top-center" richColors toastOptions={{ style: { fontSize: "1.05rem" } }} />
     </QueryClientProvider>
+  );
+}
+
+const NAV = [
+  { to: "/", label: "Dashboard", icon: Home },
+  { to: "/companionship", label: "Companionship", icon: HeartHandshake },
+  { to: "/medicines", label: "Medicines", icon: Pill },
+  { to: "/volunteer", label: "Volunteer View", icon: Users },
+  { to: "/emergency", label: "Emergency Help", icon: Siren },
+] as const;
+
+function AppShell() {
+  return (
+    <div className="min-h-screen">
+      <header className="border-b border-border bg-card">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4">
+          <Link to="/" className="flex items-center gap-2">
+            <span className="grid size-11 place-items-center rounded-2xl bg-primary text-primary-foreground"><HeartHandshake /></span>
+            <span className="font-display text-2xl font-semibold text-primary">Saathi</span>
+          </Link>
+          <div className="flex items-center gap-1 rounded-2xl bg-muted p-1" role="group" aria-label="Demo view">
+            <Link to="/" className="rounded-xl px-4 py-2 font-bold text-muted-foreground" activeProps={{ className: "bg-card text-primary shadow-sm" }} activeOptions={{ exact: true }}>Senior view</Link>
+            <Link to="/volunteer" className="rounded-xl px-4 py-2 font-bold text-muted-foreground" activeProps={{ className: "bg-card text-primary shadow-sm" }}>Volunteer view</Link>
+          </div>
+        </div>
+        <nav className="mx-auto flex max-w-6xl gap-2 overflow-x-auto px-4 pb-3" aria-label="Main">
+          {NAV.map(({ to, label, icon: Icon }) => (
+            <Link key={to} to={to} activeOptions={{ exact: to === "/" }}
+              className="flex shrink-0 items-center gap-2 rounded-xl px-4 py-3 text-base font-bold text-foreground hover:bg-muted"
+              activeProps={{ className: "bg-secondary text-secondary-foreground" }}>
+              <Icon className="size-5" /> {label}
+            </Link>
+          ))}
+        </nav>
+      </header>
+      <main className="mx-auto max-w-6xl px-4 py-8">
+        <Outlet />
+      </main>
+      <footer className="mx-auto max-w-6xl px-4 pb-10 text-sm text-muted-foreground">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-6">
+          <p>Prototype: data is saved only in this browser on this device. It is not shared with volunteers on other devices. Names marked "Sample" are fictional.</p>
+          <button
+            className="flex items-center gap-2 rounded-xl border-2 border-border px-4 py-2 font-bold text-foreground hover:bg-muted"
+            onClick={() => {
+              if (window.confirm("Reset all requests, reminders and contact to the sample demo data?")) {
+                actions.reset();
+                toast.success("Demo data has been reset.");
+              }
+            }}
+          >
+            <RotateCcw className="size-4" /> Reset demo data
+          </button>
+        </div>
+      </footer>
+    </div>
   );
 }
