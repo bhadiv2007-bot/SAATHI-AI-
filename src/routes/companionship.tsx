@@ -73,21 +73,21 @@ function Companionship() {
                 </label>
               ))}
             </div>
-            {errors.type && <p className="mt-2 font-bold text-destructive">{errors.type}</p>}
+            {errors["type"] && <p className="mt-2 font-bold text-destructive">{errors["type"]}</p>}
           </fieldset>
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block text-lg font-bold">Preferred date *
-              <input type="date" min={todayISO()} className={fieldCls} value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} aria-invalid={!!errors.date} />
-              {errors.date && <span className="mt-1 block text-base text-destructive">{errors.date}</span>}
+              <input type="date" min={todayISO()} className={fieldCls} value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} aria-invalid={!!errors["date"]} />
+              {errors["date"] && <span className="mt-1 block text-base text-destructive">{errors["date"]}</span>}
             </label>
             <label className="block text-lg font-bold">Preferred time *
-              <input type="time" className={fieldCls} value={form.time} onChange={(e) => setForm({ ...form, time: e.target.value })} aria-invalid={!!errors.time} />
-              {errors.time && <span className="mt-1 block text-base text-destructive">{errors.time}</span>}
+              <input type="time" className={fieldCls} value={form.time} onChange={(e) => setForm({ ...form, time: e.target.value })} aria-invalid={!!errors["time"]} />
+              {errors["time"] && <span className="mt-1 block text-base text-destructive">{errors["time"]}</span>}
             </label>
           </div>
           <label className="block text-lg font-bold">Notes (optional)
             <textarea rows={3} maxLength={500} className={fieldCls} placeholder="e.g. I'd like help reading my letters" value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
-            {errors.notes && <span className="mt-1 block text-base text-destructive">{errors.notes}</span>}
+            {errors["notes"] && <span className="mt-1 block text-base text-destructive">{errors["notes"]}</span>}
           </label>
           <Button type="submit" size="lg" className="w-full" disabled={saving}>
             <HeartHandshake /> {saving ? "Saving…" : "Send request"}

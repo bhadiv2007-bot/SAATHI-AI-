@@ -70,12 +70,12 @@ function Emergency() {
         <form onSubmit={submit} noValidate className="card-warm space-y-4 p-6">
           <h2 className="font-display text-2xl">Edit contact</h2>
           <label className="block text-lg font-bold">Name *
-            <input className={fieldCls} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} aria-invalid={!!errors.name} />
-            {errors.name && <span className="mt-1 block text-base text-destructive">{errors.name}</span>}
+            <input className={fieldCls} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} aria-invalid={!!errors["name"]} />
+            {errors["name"] && <span className="mt-1 block text-base text-destructive">{errors["name"]}</span>}
           </label>
           <label className="block text-lg font-bold">Phone number *
-            <input type="tel" className={fieldCls} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} aria-invalid={!!errors.phone} />
-            {errors.phone && <span className="mt-1 block text-base text-destructive">{errors.phone}</span>}
+            <input type="tel" className={fieldCls} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} aria-invalid={!!errors["phone"]} />
+            {errors["phone"] && <span className="mt-1 block text-base text-destructive">{errors["phone"]}</span>}
           </label>
           <Button type="submit" variant="secondary" size="lg" className="w-full"><Save /> Save contact</Button>
         </form>

@@ -64,7 +64,7 @@ function Volunteer() {
               {r.volunteer && <p className="mt-1">Assigned: <strong>{r.volunteer}</strong></p>}
               {r.status === "pending" && (
                 <Button className="mt-4 w-full" onClick={() => {
-                  if (!name.trim()) return toast.error("Please enter your name first.");
+                  if (!name.trim()) { toast.error("Please enter your name first."); return; }
                   actions.transition(r.id, "accept", name.trim());
                   toast.success("Request accepted. The senior now sees it as confirmed.");
                 }}><HandHeart /> Accept request</Button>
