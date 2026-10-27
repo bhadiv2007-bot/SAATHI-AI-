@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Architecture
+- All app data (requests, reminders, contact) lives in src/lib/saathi-store.ts via localStorage + useSyncExternalStore; pages read it with useSaathi() so Senior and Volunteer views share one source. Why: prototype without a backend.
